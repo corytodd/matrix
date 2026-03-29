@@ -19,15 +19,18 @@ jobs:
 
       - name: Sync files
         run: |
+          ssh -i ~/.ssh/deploy_key \
+            ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} \
+            "mkdir -p /opt/matrix/caddy /opt/matrix/tuwunel"
           scp -i ~/.ssh/deploy_key docker-compose.yml \
             ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:/opt/matrix/docker-compose.yml
           scp -i ~/.ssh/deploy_key caddy/Caddyfile \
             ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:/opt/matrix/caddy/Caddyfile
-          scp -i ~/.ssh/deploy_key conduit/conduit.toml \
-            ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:/opt/matrix/conduit/conduit.toml
+          scp -i ~/.ssh/deploy_key tuwunel/tuwunel.toml \
+            ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:/opt/matrix/tuwunel/tuwunel.toml
 
       - name: Restart services
         run: |
           ssh -i ~/.ssh/deploy_key \
             ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} \
-            "cd /opt/matrix && GIT_SHA=${{ github.sha }} docker compose up -d --pull always"
+            "cd /opt/matrix && GIT_SHA=${{ github.sha }} docker compose up -d --pull always --remove-orphans"

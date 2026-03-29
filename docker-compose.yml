@@ -6,7 +6,7 @@ services:
       - "git.sha=${GIT_SHA}"
     volumes:
       - tuwunel-data:/var/lib/tuwunel
-      - ./conduit/conduit.toml:/etc/tuwunel/tuwunel.toml:ro
+      - ./tuwunel/tuwunel.toml:/etc/tuwunel/tuwunel.toml:ro
     environment:
       TUWUNEL_CONFIG: /etc/tuwunel/tuwunel.toml
       # Manual registration enable
