@@ -15,6 +15,21 @@ services:
     networks:
       - internal
 
+  pingbot:
+    build: ./bots/pingbot
+    restart: unless-stopped
+    environment:
+      BOT_HOMESERVER: ${BOT_HOMESERVER}
+      BOT_USERNAME: ${PINGBOT_USERNAME}
+      BOT_PASSWORD: ${PINGBOT_PASSWORD}
+      BOT_ALLOWED_USERS: ${PINGBOT_ALLOWED_USERS}
+    volumes:
+      - pingbot-store:/app/bot_store
+    networks:
+      - internal
+    depends_on:
+      - tuwunel
+
   caddy:
     image: caddy@sha256:a1b7e624f860619cea121bdbc5dec2e112401666298c6507c6793b0a3ee6fc8e
     restart: unless-stopped
@@ -34,6 +49,7 @@ volumes:
   tuwunel-data:
   caddy-data:
   caddy-config:
+  pingbot-store:
 
 networks:
   internal:

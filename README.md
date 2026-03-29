@@ -67,6 +67,42 @@ Database is on a Docker volume
 docker volume inspect matrix_tuwunel-data
 ```
 
+## Bots
+
+Bots live under `bots/{name}/` and are built as Docker Compose services on the `internal` network.
+
+Each bot uses a prefixed set of env vars in `.env` to avoid collisions:
+
+| Variable               | Description                           |
+| ---------------------- | ------------------------------------- |
+| `BOT_HOMESERVER`       | `https://matrix.YOUR_DOMAIN` (shared) |
+| `{NAME}_USERNAME`      | `@botname:YOUR_DOMAIN`                |
+| `{NAME}_PASSWORD`      | Bot account password                  |
+| `{NAME}_ALLOWED_USERS` | Comma-separated Matrix user IDs       |
+
+The service maps these to the generic `BOT_*` names the bot code expects. For example, `pingbot` uses `PINGBOT_USERNAME`, `PINGBOT_PASSWORD`, `PINGBOT_ALLOWED_USERS`.
+
+Register a bot account from the admin room in your Matrix client (`#admins:YOUR_DOMAIN`):
+
+```
+!admin users create-user {NAME} {PASSWORD}
+```
+
+Run `!admin help` to see all available admin commands.
+
+### Available bots
+
+| Name    | Trigger | Response |
+| ------- | ------- | -------- |
+| pingbot | `!ping` | `pong`   |
+
+### Adding a bot
+
+1. Create `bots/{name}/` with a `Dockerfile` and your bot code
+2. Add a service to `docker-compose.yml` pointing to `./bots/{name}`
+3. Register the bot account (see above)
+4. Add its env vars to `.env`
+
 ## Firewall
 
 Open these ports:

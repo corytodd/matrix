@@ -12,5 +12,7 @@ ssh $Remote "mkdir -p $Dest/caddy $Dest/tuwunel"
 scp docker-compose.yml "${Remote}:${Dest}/docker-compose.yml"
 scp caddy/Caddyfile "${Remote}:${Dest}/caddy/Caddyfile"
 scp tuwunel/tuwunel.toml "${Remote}:${Dest}/tuwunel/tuwunel.toml"
+ssh $Remote "rm -rf ${Dest}/bots"
+scp -r bots "${Remote}:${Dest}/"
 
-ssh $Remote "cd $Dest && GIT_SHA=$Sha docker compose up -d --pull always --remove-orphans"
+ssh $Remote "cd $Dest && GIT_SHA=$Sha docker compose up -d --pull always --remove-orphans --build"
