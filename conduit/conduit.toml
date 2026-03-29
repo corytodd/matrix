@@ -1,0 +1,14 @@
+[global]
+server_name = "corytodd.us"
+database_path = "/var/lib/tuwunel/db"
+port = [6167]
+address = "0.0.0.0"
+allow_registration = false
+allow_federation = false
+
+max_request_size = 20_000_000
+trusted_servers = ["matrix.org"]
+
+# Generate with: head -c 64 /dev/urandom | base64
+# Store in .env and pass via environment variable in production
+# registration_token = "set-this-before-first-run"
