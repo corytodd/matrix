@@ -1,6 +1,6 @@
 services:
   tuwunel:
-    image: jevolk/tuwunel:latest
+    image: jevolk/tuwunel@sha256:25693407bc059eec7e161418edd02b2b7c010516c855056a7672883b04f71b11
     restart: unless-stopped
     labels:
       - "git.sha=${GIT_SHA}"
@@ -16,7 +16,7 @@ services:
       - internal
 
   caddy:
-    image: caddy:2-alpine
+    image: caddy@sha256:a1b7e624f860619cea121bdbc5dec2e112401666298c6507c6793b0a3ee6fc8e
     restart: unless-stopped
     environment:
       GIT_SHA: ${GIT_SHA}
