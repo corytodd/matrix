@@ -38,7 +38,7 @@ services:
       - internal
 
   coturn:
-    image: coturn/coturn:sha256:254a7e19f23366bc638af8e092c18ea52e0eefc9e44041f376e58b61b3b6d646
+    image: coturn/coturn@sha256:254a7e19f23366bc638af8e092c18ea52e0eefc9e44041f376e58b61b3b6d646
     restart: unless-stopped
     network_mode: host
     volumes:
