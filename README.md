@@ -1,6 +1,6 @@
 # matrix-server
 
-Self-hosted Matrix chat server using tuwunel + Caddy on Docker Compose.
+Self-hosted Matrix chat server using tuwunel + Caddy on Docker Compose with LiveKit and TURN.
 
 ## Design
 
@@ -8,14 +8,15 @@ Self-hosted Matrix chat server using tuwunel + Caddy on Docker Compose.
 - .well-known delegation (not SRV records)
 - tuwunel (actively maintained Conduwit fork), not original Conduit
 - SQLite backend, no Postgres
-- Caddy for TLS + reverse proxy (auto Let's Encrypt)
+- Caddy for TLS + reverse proxy
 - Docker Compose for reproducibility
-- Digital Ocean droplet, nameservers on DO
 - Firewall: DO cloud firewall + ufw, ports 22/80/443 open
-- No Cloudflare, no IP masking for now
-- Tailscale planned for SSH lockdown (not yet configured)
 - WebRTC and TURN relay via coturn
 - LiveKit stack for Element calls
+
+#### TODO
+- Tailscale planned for SSH lockdown (not yet configured)
+
 
 ### Deployment
 - Deploy from tagged GitHub release via GitHub Actions
@@ -25,15 +26,16 @@ Self-hosted Matrix chat server using tuwunel + Caddy on Docker Compose.
 Throughout this document:
 
 **YOUR_DOMAIN** A valid domain name you own
+***YOUR_VPS_IPU** Public IP of your server
 
 ## DNS records
 
 Add these A records pointing to your VPS IP:
 
-- `YOUR_DOMAIN` -> VPS IP
-- `livekit` -> VPS IP
-- `matrix` -> VPS IP
-- `turn` -> VPS IP
+- `YOUR_DOMAIN` -> YOUR_VPS_IPU
+- `livekit` -> YOUR_VPS_IPU
+- `matrix` -> YOUR_VPS_IPU
+- `turn` -> YOUR_VPS_IPU
 
 Add AAAA records if your VPS has IPv6.
 
@@ -41,7 +43,7 @@ Add AAAA records if your VPS has IPv6.
 
 ```bash
 # Clone and configure
-export YOUR_DOMAIN=!!!SET_ME!!!W
+export YOUR_DOMAIN=!!!SET_ME!!!
 export YOUR_VPS_IP=!!!SET_ME!!!
 
 sudo mkdir -p /opt/matrix && sudo chown $USER:$USER /opt/matrix
@@ -83,7 +85,7 @@ curl https://YOUR_DOMAIN/.well-known/matrix/server
 curl https://YOUR_DOMAIN/.well-known/matrix/client
 curl https://livekit.YOUR_DOMAIN/_matrix/client/versions
 curl https://matrix.YOUR_DOMAIN/_matrix/client/versions
-nc -zvu turn.corytodd.us 3478
+nc -zvu turn.YOUR_DOMAIN 3478
 ```
 
 Database is on a Docker volume
@@ -115,18 +117,18 @@ Both coturn and LiveKit run in host network mode to avoid Docker mapping thousan
 UDP ports (which exhausts iptables memory). Caddy reaches LiveKit's HTTP API via
 `host.docker.internal` allowed through UFW only from Docker bridge subnets.
 
-## Firewall
+## Server
 
-Run `server/firewall.sh` on a fresh server. It configures UFW and covers:
+```
+# Configure sysctl to allow for larger QUIC buffers:
+sudo cp server/99-matrix.conf /etc/sysctl.d/
+sudo sysctl --system
 
-- 22/tcp SSH
-- 80/tcp, 443/tcp HTTP/HTTPS
-- 3478/tcp+udp, 5349/tcp+udp TURN/TURNS (coturn)
-- 49152-65535/udp TURN relay + LiveKit WebRTC
-- 7881/tcp LiveKit TURN TCP
-- 172.16.0.0/12 -> 7880/tcp Docker bridge to LiveKit API (not exposed publicly)
+# Configure local firewall
+sudo ./setver/firewall.sh
 
-Also configure matching rules in the DO cloud firewall except the Docker bridge rule, that's host-only.
+#!! Consider adding a firewall on your VPS in addition to this one!
+```
 
 ## Key Rotation
 
