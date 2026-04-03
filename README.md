@@ -46,6 +46,10 @@ export YOUR_VPS_IP=!!!SET_ME!!!
 
 sudo mkdir -p /opt/matrix && sudo chown $USER:$USER /opt/matrix
 git clone git@github.com:corytodd/matrix.git /opt/matrix'
+
+pushd /opt/matrix
+./scripts/gen-caddyfile.sh $YOUR_DOMAIN
+
 cat >> /opt/matrix/.env << EOF
 # Copy to .env and fill in values
 # NEVER commit .env to git
