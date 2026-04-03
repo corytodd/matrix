@@ -31,7 +31,9 @@ Throughout this document:
 Add these A records pointing to your VPS IP:
 
 - `YOUR_DOMAIN` -> VPS IP
-- `matrix.YOUR_DOMAIN` -> VPS IP
+- `livekit` -> VPS IP
+- `matrix` -> VPS IP
+- `turn` -> VPS IP
 
 Add AAAA records if your VPS has IPv6.
 
@@ -39,15 +41,18 @@ Add AAAA records if your VPS has IPv6.
 
 ```bash
 # Clone and configure
+export YOUR_DOMAIN=!!!SET_ME!!!!
+
 sudo mkdir -p /opt/matrix && sudo chown $USER:$USER /opt/matrix
 git clone git@github.com:corytodd/matrix.git /opt/matrix'
 cat >> /opt/matrix/.env << EOF
 # Copy to .env and fill in values
 # NEVER commit .env to git
-HOST=YOUR_DOMAIN
+HOST=$YOUR_DOMAIN
 USER=$USER
 DEST=/opt/matrix
 COTURN_SECRET=$(head -c 64 /dev/urandom | base64 -w 0)
+LIVEKIT_URL=wss://livekit.$YOUR_DOMAIN
 LIVEKIT_KEY=$(head -c 64 /dev/urandom | base64 -w 0)
 LIVEKIT_SECRET=$(head -c 64 /dev/urandom | base64 -w 0)
 EOF
@@ -67,7 +72,9 @@ docker compose logs -f
 curl https://matrix.YOUR_DOMAIN/_version
 curl https://YOUR_DOMAIN/.well-known/matrix/server
 curl https://YOUR_DOMAIN/.well-known/matrix/client
+curl https://livekit.YOUR_DOMAIN/_matrix/client/versions
 curl https://matrix.YOUR_DOMAIN/_matrix/client/versions
+nc -zvu turn.corytodd.us 3478
 ```
 
 Database is on a Docker volume
