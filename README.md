@@ -53,6 +53,7 @@ HOST=$YOUR_DOMAIN
 USER=$USER
 DEST=/opt/matrix
 COTURN_SECRET=$(head -c 64 /dev/urandom | base64 -w 0)
+COTURN_REALM=TURN.${YOURDOMAIN}
 EXTERNAL_IP=${YOUR_VPS_IP}
 TUWUNEL_SERVER_NAME="YOUR_DOMAIN"
 TUWUNEL_TURN_URIS='["turn:turn.YOUR_DOMAIN:3478?transport=udp", "turn:turn.YOUR_DOMAIN:3478?transport=tcp"]'
