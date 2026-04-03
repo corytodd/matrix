@@ -45,7 +45,11 @@ services:
     network_mode: host
     volumes:
       - ./coturn/turnserver.conf:/etc/coturn/turnserver.conf:ro
-    command: -c /etc/coturn/turnserver.conf --static-auth-secret=${COTURN_SECRET} --external-ip=${EXTERNAL_IP} --realm=${COTURN_REALM}
+    command: >-
+      -c /etc/coturn/turnserver.conf
+      --static-auth-secret=${COTURN_SECRET}
+      --external-ip=${EXTERNAL_IP}
+      --realm=${COTURN_REALM}
 
   caddy:
     image: caddy@sha256:a1b7e624f860619cea121bdbc5dec2e112401666298c6507c6793b0a3ee6fc8e
