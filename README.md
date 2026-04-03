@@ -41,7 +41,8 @@ Add AAAA records if your VPS has IPv6.
 
 ```bash
 # Clone and configure
-export YOUR_DOMAIN=!!!SET_ME!!!!
+export YOUR_DOMAIN=!!!SET_ME!!!W
+export YOUR_VPS_IP=!!!SET_ME!!!
 
 sudo mkdir -p /opt/matrix && sudo chown $USER:$USER /opt/matrix
 git clone git@github.com:corytodd/matrix.git /opt/matrix'
@@ -52,6 +53,9 @@ HOST=$YOUR_DOMAIN
 USER=$USER
 DEST=/opt/matrix
 COTURN_SECRET=$(head -c 64 /dev/urandom | base64 -w 0)
+EXTERNAL_IP=${YOUR_VPS_IP}
+TUWUNEL_SERVER_NAME="YOUR_DOMAIN"
+TUWUNEL_TURN_URIS='["turn:turn.YOUR_DOMAIN:3478?transport=udp", "turn:turn.YOUR_DOMAIN:3478?transport=tcp"]'
 LIVEKIT_URL=wss://livekit.$YOUR_DOMAIN
 LIVEKIT_KEY=$(head -c 64 /dev/urandom | base64 -w 0)
 LIVEKIT_SECRET=$(head -c 64 /dev/urandom | base64 -w 0)

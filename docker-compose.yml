@@ -10,6 +10,8 @@ services:
     environment:
       TUWUNEL_CONFIG: /etc/tuwunel/tuwunel.toml
       TUWUNEL_TURN_SECRET: ${COTURN_SECRET}
+      TUWUNEL_SERVER_NAME: ${TUWUNEL_SERVER_NAME}
+      TUWUNEL_TURN_URIS: ${TUWUNEL_TURN_URIS}
       # Manual registration enable
       # echo "REGISTRATION_TOKEN=$(head -c 64 /dev/urandom | base64 -w 0)" > /opt/matrix/.env
       # TUWUNEL_REGISTRATION_TOKEN: ${REGISTRATION_TOKEN}
