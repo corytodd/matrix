@@ -5,8 +5,8 @@ Self-hosted Matrix chat server using tuwunel + Caddy on Docker Compose with Live
 ## Design
 
 ### Architecture decisions
-- .well-known delegation (not SRV records)
-- tuwunel (actively maintained Conduwit fork), not original Conduit
+- .well-known delegation
+- tuwunel
 - SQLite backend, no Postgres
 - Caddy for TLS + reverse proxy
 - Docker Compose for reproducibility
@@ -26,7 +26,7 @@ Self-hosted Matrix chat server using tuwunel + Caddy on Docker Compose with Live
 Throughout this document:
 
 **YOUR_DOMAIN** A valid domain name you own  
-***YOUR_VPS_IPU** Public IP of your server  
+**YOUR_VPS_IP** Public IP of your server  
 
 ## DNS records
 
@@ -125,7 +125,7 @@ sudo cp server/99-matrix.conf /etc/sysctl.d/
 sudo sysctl --system
 
 # Configure local firewall
-sudo ./setver/firewall.sh
+sudo ./server/firewall.sh
 
 #!! Consider adding a firewall on your VPS in addition to this one!
 ```
