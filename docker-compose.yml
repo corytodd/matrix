@@ -16,6 +16,27 @@ services:
     networks:
       - internal
 
+  livekit:
+    image: livekit/livekit-server:latest
+    restart: unless-stopped
+    network_mode: host
+    volumes:
+      - ./livekit/livekit.yaml:/etc/livekit.yaml:ro
+    command: --config /etc/livekit.yaml --node-ip=${EXTERNAL_IP}
+    environment:
+      LIVEKIT_KEYS: "${LIVEKIT_KEY}: ${LIVEKIT_SECRET}"
+
+  lk-jwt-service:
+    image: ghcr.io/element-hq/lk-jwt-service:latest
+    restart: unless-stopped
+    environment:
+      LIVEKIT_URL: wss://livekit.corytodd.us
+      LIVEKIT_KEY: ${LIVEKIT_KEY}
+      LIVEKIT_SECRET: ${LIVEKIT_SECRET}
+      LIVEKIT_FULL_ACCESS_HOMESERVERS: corytodd.us
+    networks:
+      - internal
+
   coturn:
     image: coturn/coturn:latest
     restart: unless-stopped
@@ -27,6 +48,8 @@ services:
   caddy:
     image: caddy@sha256:a1b7e624f860619cea121bdbc5dec2e112401666298c6507c6793b0a3ee6fc8e
     restart: unless-stopped
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     environment:
       GIT_SHA: ${GIT_SHA}
     ports:
