@@ -18,10 +18,6 @@ Self-hosted Matrix chat server using tuwunel + Caddy on Docker Compose.
 ### Deployment
 - Deploy from tagged GitHub release via GitHub Actions
 
-### Federation (TODO)
-- Currently disabled, plan to federate with another server later
-
-
 ## Config
 
 Throughout this document:
