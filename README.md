@@ -102,3 +102,12 @@ Run `server/firewall.sh` on a fresh server. It configures UFW and covers:
 - 172.16.0.0/12 -> 7880/tcp Docker bridge to LiveKit API (not exposed publicly)
 
 Also configure matching rules in the DO cloud firewall except the Docker bridge rule, that's host-only.
+
+## Key Rotation
+
+All secrets live in `/opt/matrix/.env`. To rotate:
+
+1. Update `COTURN_SECRET`, `LIVEKIT_KEY`, and/or `LIVEKIT_SECRET` in `.env`
+2. `cd /opt/matrix && docker compose up -d`
+
+No config files need to be touched.
