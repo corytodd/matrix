@@ -30,10 +30,10 @@ services:
     image: ghcr.io/element-hq/lk-jwt-service:0.4.2@sha256:ac6aaad78748dcf08f68ca178835a40d0f98cbc1d117ef00e2d17f11c13d3d1e
     restart: unless-stopped
     environment:
-      LIVEKIT_URL: wss://livekit.corytodd.us
+      LIVEKIT_URL: ${LIVEKIT_URL}
       LIVEKIT_KEY: ${LIVEKIT_KEY}
       LIVEKIT_SECRET: ${LIVEKIT_SECRET}
-      LIVEKIT_FULL_ACCESS_HOMESERVERS: corytodd.us
+      LIVEKIT_FULL_ACCESS_HOMESERVERS: ${HOST}
     networks:
       - internal
 
