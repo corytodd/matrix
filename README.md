@@ -14,6 +14,8 @@ Self-hosted Matrix chat server using tuwunel + Caddy on Docker Compose.
 - Firewall: DO cloud firewall + ufw, ports 22/80/443 open
 - No Cloudflare, no IP masking for now
 - Tailscale planned for SSH lockdown (not yet configured)
+- WebRTC and TURN relay via coturn
+- LiveKit stack for Element calls
 
 ### Deployment
 - Deploy from tagged GitHub release via GitHub Actions
@@ -37,8 +39,19 @@ Add AAAA records if your VPS has IPv6.
 
 ```bash
 # Clone and configure
-git clone git@github.com:corytodd/matrix.git /opt/matrix
-echo "REGISTRATION_TOKEN=$(head -c 64 /dev/urandom | base64 -w 0)" > /opt/matrix/.envv
+sudo mkdir -p /opt/matrix && sudo chown $USER:$USER /opt/matrix
+git clone git@github.com:corytodd/matrix.git /opt/matrix'
+cat >> /opt/matrix/.env << EOF
+# Copy to .env and fill in values
+# NEVER commit .env to git
+HOST=YOUR_DOMAIN
+USER=$USER
+DEST=/opt/matrix
+COTURN_SECRET=$(head -c 64 /dev/urandom | base64 -w 0)
+LIVEKIT_KEY=$(head -c 64 /dev/urandom | base64 -w 0)
+LIVEKIT_SECRET=$(head -c 64 /dev/urandom | base64 -w 0)
+EOF
+chmod 600 /opt/matrix/.env
 ```
 
 ## Run
