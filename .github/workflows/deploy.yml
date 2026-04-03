@@ -21,13 +21,15 @@ jobs:
         run: |
           ssh -i ~/.ssh/deploy_key \
             ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} \
-            "mkdir -p /opt/matrix/caddy /opt/matrix/tuwunel"
+            "mkdir -p /opt/matrix/caddy /opt/matrix/tuwunel /opt/matrix/coturn"
           scp -i ~/.ssh/deploy_key docker-compose.yml \
             ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:/opt/matrix/docker-compose.yml
           scp -i ~/.ssh/deploy_key caddy/Caddyfile \
             ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:/opt/matrix/caddy/Caddyfile
           scp -i ~/.ssh/deploy_key tuwunel/tuwunel.toml \
             ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:/opt/matrix/tuwunel/tuwunel.toml
+          scp -i ~/.ssh/deploy_key coturn/turnserver.conf \
+            ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:/opt/matrix/coturn/turnserver.conf
 
       - name: Restart services
         run: |
