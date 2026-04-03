@@ -17,7 +17,7 @@ services:
       - internal
 
   livekit:
-    image: livekit/livekit-server:latest
+    image: livekit/livekit-server@sha256:1bebe49602bb1fa0ea8cb5da4e9fd906d8ecd7153683db7786f4bd9d79abea5b
     restart: unless-stopped
     network_mode: host
     volumes:
@@ -27,7 +27,7 @@ services:
       LIVEKIT_KEYS: "${LIVEKIT_KEY}: ${LIVEKIT_SECRET}"
 
   lk-jwt-service:
-    image: ghcr.io/element-hq/lk-jwt-service:latest
+    image: ghcr.io/element-hq/lk-jwt-service:0.4.2@sha256:ac6aaad78748dcf08f68ca178835a40d0f98cbc1d117ef00e2d17f11c13d3d1e
     restart: unless-stopped
     environment:
       LIVEKIT_URL: wss://livekit.corytodd.us
@@ -38,7 +38,7 @@ services:
       - internal
 
   coturn:
-    image: coturn/coturn:latest
+    image: coturn/coturn:sha256:254a7e19f23366bc638af8e092c18ea52e0eefc9e44041f376e58b61b3b6d646
     restart: unless-stopped
     network_mode: host
     volumes:
