@@ -25,8 +25,8 @@ Self-hosted Matrix chat server using tuwunel + Caddy on Docker Compose with Live
 
 Throughout this document:
 
-**YOUR_DOMAIN** A valid domain name you own
-***YOUR_VPS_IPU** Public IP of your server
+**YOUR_DOMAIN** A valid domain name you own  
+***YOUR_VPS_IPU** Public IP of your server  
 
 ## DNS records
 
