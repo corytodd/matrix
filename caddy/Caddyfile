@@ -20,6 +20,7 @@ corytodd.us {
 
 matrix.corytodd.us {
 	respond /_version `{"sha":"{env.GIT_SHA}"}`
+	respond / 404
 	reverse_proxy tuwunel:6167
 }
 
