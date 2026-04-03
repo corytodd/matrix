@@ -10,7 +10,7 @@ $Sha = git rev-parse HEAD
 
 ssh $Remote "mkdir -p $Dest/caddy $Dest/tuwunel $Dest/coturn $Dest/livekit"
 scp docker-compose.yml "${Remote}:${Dest}/docker-compose.yml"
-scp caddy/Caddyfile "${Remote}:${Dest}/caddy/Caddyfile"
+scp caddy/Caddyfile "${Remote}:${Dest}/caddy/Caddyfile" 2>$null
 scp tuwunel/tuwunel.toml "${Remote}:${Dest}/tuwunel/tuwunel.toml"
 scp coturn/turnserver.conf "${Remote}:${Dest}/coturn/turnserver.conf"
 scp livekit/livekit.yaml "${Remote}:${Dest}/livekit/livekit.yaml"

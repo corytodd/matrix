@@ -1,2 +1,5 @@
 .env
 tuwunel-data/
+
+# Generated
+caddy/Caddyfile

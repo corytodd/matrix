@@ -17,6 +17,10 @@ jobs:
           chmod 600 ~/.ssh/deploy_key
           ssh-keyscan -H ${{ secrets.DEPLOY_HOST }} >> ~/.ssh/known_hosts
 
+      - name: Gen Caddy
+        run: |
+          ./scripts/gen-caddyfile.sh ${{ secrets.DEPLOY_HOST }}
+
       - name: Sync files
         run: |
           ssh -i ~/.ssh/deploy_key \
