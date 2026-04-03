@@ -30,8 +30,8 @@ jobs:
             ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:/opt/matrix/tuwunel/tuwunel.toml
           scp -i ~/.ssh/deploy_key coturn/turnserver.conf \
             ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:/opt/matrix/coturn/turnserver.conf
-          scp -i ~/.ssh/deploy_key livekit/livekit.conf \
-            ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:/opt/matrix/livekit/livekit.conf
+          scp -i ~/.ssh/deploy_key livekit/livekit.yaml \
+            ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:/opt/matrix/livekit/livekit.yaml
 
       - name: Restart services
         run: |
