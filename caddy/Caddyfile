@@ -1,3 +1,4 @@
+# Generatate with ./scripts/gen-caddyfile.sh YOUR_DOMAINs
 corytodd.us {
 	header /.well-known/matrix/* Content-Type application/json
 	header /.well-known/matrix/* Access-Control-Allow-Origin *

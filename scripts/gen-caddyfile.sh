@@ -4,6 +4,7 @@ set -euo pipefail
 DOMAIN="${1:?Usage: $0 <domain>}"
 
 cat > caddy/Caddyfile << EOF
+# Generatate with ./scripts/gen-caddyfile.sh YOUR_DOMAINs
 ${DOMAIN} {
     header /.well-known/matrix/* Content-Type application/json
     header /.well-known/matrix/* Access-Control-Allow-Origin *
