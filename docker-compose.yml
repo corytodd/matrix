@@ -1,6 +1,6 @@
 services:
   tuwunel:
-    image: jevolk/tuwunel@sha256:25693407bc059eec7e161418edd02b2b7c010516c855056a7672883b04f71b11
+    image: jevolk/tuwunel@sha256:478eddb7c9a3b551b1519ff9f256dab4ed2067e58b7dd1cd129bbf67df62c1d0
     restart: unless-stopped
     labels:
       - "git.sha=${GIT_SHA}"
@@ -19,7 +19,7 @@ services:
       - internal
 
   livekit:
-    image: livekit/livekit-server@sha256:1bebe49602bb1fa0ea8cb5da4e9fd906d8ecd7153683db7786f4bd9d79abea5b
+    image: livekit/livekit-server@sha256:698a13999b4b2285866a32903724884b1e10c03259526391d9b3a72d9b73bbb4
     restart: unless-stopped
     network_mode: host
     volumes:
@@ -29,7 +29,7 @@ services:
       LIVEKIT_KEYS: "${LIVEKIT_KEY}: ${LIVEKIT_SECRET}"
 
   lk-jwt-service:
-    image: ghcr.io/element-hq/lk-jwt-service:0.4.2@sha256:ac6aaad78748dcf08f68ca178835a40d0f98cbc1d117ef00e2d17f11c13d3d1e
+    image: ghcr.io/element-hq/lk-jwt-service@sha256:e9174b17c7b0048dba3899e50e2c3a6df8ec97657267a7cefa704076b89d3f96
     restart: unless-stopped
     environment:
       LIVEKIT_URL: ${LIVEKIT_URL}
@@ -52,7 +52,7 @@ services:
       --realm=${COTURN_REALM}
 
   caddy:
-    image: caddy@sha256:a1b7e624f860619cea121bdbc5dec2e112401666298c6507c6793b0a3ee6fc8e
+    image: caddy@sha256:1e40b251ca9639ead7b5cd2cedcc8765adfbabb99450fe23f130eefabf50f4bc
     restart: unless-stopped
     extra_hosts:
       - "host.docker.internal:host-gateway"
