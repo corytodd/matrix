@@ -1,0 +1,22 @@
+name: Check
+
+on:
+  pull_request:
+    branches: main
+
+permissions:
+  contents: read
+  packages: read
+
+jobs:
+  validate-images:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      
+      - name: Validate Docker Compose
+        run: |
+          echo "Checking if all images in docker-compose.yml exist..."
+          docker compose config --quiet
+          docker compose pull --quiet
+
