@@ -4,14 +4,18 @@ set -euo pipefail
 COMPOSE_FILE="${1:-docker-compose.yml}"
 TIMEOUT="${2:-15}"
 
-mapfile -t images < <(docker compose -f "${COMPOSE_FILE}" config --format json 2>/dev/null \
-    | jq -r '.services[].image // empty')
+if ! command -v docker >/dev/null 2>&1 || ! docker compose version >/dev/null 2>&1; then
+    echo "error: docker compose not available (is Docker Desktop running with WSL integration?)" >&2
+    exit 1
+fi
+
+config=$(docker compose -f "${COMPOSE_FILE}" config --no-interpolate --format json)
+mapfile -t images < <(echo "${config}" | jq -r '.services[].image // empty')
 
 for image in "${images[@]}"; do
     ref="${image%%@sha256:*}"
 
-    inspect=$(timeout "${TIMEOUT}" docker buildx imagetools inspect "${ref}" 2>/dev/null)
-    if [[ $? -ne 0 ]]; then
+    if ! inspect=$(timeout "${TIMEOUT}" docker buildx imagetools inspect "${ref}" 2>/dev/null); then
         echo "image: ${image} ... TIMEOUT/ERROR"
         continue
     fi
